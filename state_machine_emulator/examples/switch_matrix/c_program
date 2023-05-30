@@ -1,0 +1,16 @@
+# timestamp, command, arguments of command (typically pio, sm, arguments)
+0, out_base, 6
+0, out_count, 8
+0, in_base, 14
+0, in_count, 8
+0, set_base, 2
+0, set_count, 1
+
+0, dir_out, 6
+0, dir_out, 7
+0, dir_out, 8
+0, dir_out, 9
+0, dir_out, 10
+0, dir_out, 11
+0, dir_out, 12
+0, dir_out, 13
