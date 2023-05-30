@@ -1,12 +1,9 @@
 
 .program squarewave
 
-set pindirs, 1
-set X, 16
-
 .wrap_target
-    pull noblock
+    set pindirs, 1
     set pins, 1  [1]
     set pins, 0
+    jmp 1
 .wrap
-

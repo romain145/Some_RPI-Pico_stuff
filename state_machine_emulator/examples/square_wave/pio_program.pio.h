@@ -12,23 +12,22 @@
 // squarewave //
 // ---------- //
 
-#define squarewave_wrap_target 2
-#define squarewave_wrap 4
+#define squarewave_wrap_target 0
+#define squarewave_wrap 3
 
 static const uint16_t squarewave_program_instructions[] = {
-    0xe081, //  0: set    pindirs, 1                 
-    0xe030, //  1: set    x, 16                      
             //     .wrap_target
-    0x8080, //  2: pull   noblock                    
-    0xe101, //  3: set    pins, 1                [1] 
-    0xe000, //  4: set    pins, 0                    
+    0xe081, //  0: set    pindirs, 1                 
+    0xe101, //  1: set    pins, 1                [1] 
+    0xe000, //  2: set    pins, 0                    
+    0x0001, //  3: jmp    1                          
             //     .wrap
 };
 
 #if !PICO_NO_HARDWARE
 static const struct pio_program squarewave_program = {
     .instructions = squarewave_program_instructions,
-    .length = 5,
+    .length = 4,
     .origin = -1,
 };
 
