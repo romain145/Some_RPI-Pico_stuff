@@ -17,11 +17,26 @@ from interface import Emulator_Interface
 from emulation import emulation
 from config import EMULATION_STEPS, SAVE_TEST_DATA
 from state_machine import state_machine
+import subprocess
 
 """
-This code emulates a state machine of a RP4020
+This code emulates a state machine of a RP2040
 It provides a GUI to step through the emulation results.
 """
+
+
+def assemble_program(filename):
+    try:
+        output = subprocess.run(
+            ["pioasm", filename[0], f"{filename[0]}.h"], capture_output=True
+        )
+        if output.returncode != 0:
+            raise ValueError(f"Unable to assemble PIO program {output.stderr}")
+    except IndexError as e:
+        print(".pio program file not found")
+    except IOError as e:
+        print(f"Error assembling pio program file: {filename[0]}, is pioasm in the PATH?")
+
 
 def process_file_pio_h(filename, c_program):
     """ read and parse a pioasm generated header file """
@@ -170,6 +185,7 @@ if __name__ == "__main__":
         if dir_of_files[-1] != '/':
             dir_of_files += '/'
         chdir(dir_of_files)
+        pio_asm_file = glob("*.pio")
         pio_file = glob("*.pio.h")
         pin_file = glob("pin_program")
         c_file = glob("c_program")
@@ -192,6 +208,9 @@ if __name__ == "__main__":
         # the c_program and pin_program are lists
         c_program = list()
         pin_program = list()
+
+        # assemble the .pio file to .pio.h file
+        assemble_program(pio_asm_file)
 
         # process the pio.h file (which may already contribute to the c_program)
         pio_program, pio_program_length, pio_program_origin, pio_program_wrap_target, pio_program_wrap = process_file_pio_h(pio_h_filename, c_program)
